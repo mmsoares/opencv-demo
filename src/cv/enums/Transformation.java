@@ -24,13 +24,13 @@ public enum Transformation {
         @Override
         public Mat doAction(Mat original) {
             //Pre-processing: use gaussian blur to reduce noise
-            final int size = 7;
+            final int size = 15;
             Mat helperMat = new Mat();
             GaussianBlur(original, helperMat, new Size(size, size), 0, 0, BORDER_DEFAULT);
 
             //Actual transformation
             Mat transformedMat = new Mat();
-            Canny(helperMat, transformedMat, 10, 100, 3, true);
+            Canny(helperMat, transformedMat, 30, 60);
             return transformedMat;
         }
     },
@@ -38,7 +38,7 @@ public enum Transformation {
         @Override
         public Mat doAction(Mat original) {
             //Pre-processing: use gaussian blur to reduce noise
-            final int size = 7;
+            final int size = 15;
             Mat helperMat = new Mat();
             GaussianBlur(original, helperMat, new Size(size, size), 0, 0, BORDER_DEFAULT);
 
@@ -51,14 +51,12 @@ public enum Transformation {
             Mat absGradX = new Mat();
             Mat absGradY = new Mat();
 
-            int scale = 1;
-            int delta = 0;
             int dDepth = CV_16S;
 
-            Sobel(inputGray, gradX, dDepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+            Sobel(inputGray, gradX, dDepth, 1, 0);
             convertScaleAbs(gradX, absGradX);
 
-            Sobel(inputGray, gradY, dDepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+            Sobel(inputGray, gradY, dDepth, 0, 1);
             convertScaleAbs(gradY, absGradY);
 
             Mat output = new Mat();
@@ -71,7 +69,7 @@ public enum Transformation {
         @Override
         public Mat doAction(Mat original) {
             Mat modified = new Mat();
-            original.convertTo(modified, original.type(), 1.7, 0);
+            original.convertTo(modified, original.type(), 1, 80);
 
             return modified;
         }
@@ -80,7 +78,7 @@ public enum Transformation {
         @Override
         public Mat doAction(Mat original) {
             Mat modified = new Mat();
-            original.convertTo(modified, original.type(), 1, 80);
+            original.convertTo(modified, original.type(), 1.7, 0);
 
             return modified;
         }
